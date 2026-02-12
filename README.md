@@ -29,9 +29,9 @@ Its purpose is fault detection and controlled interruption, not dynamic power co
 
 Dead-time ensures: No overlapping motor activation, Relay settling before reactivation, Controlled state transitions. It is a sequencing mechanism and not a substitute for built-in motor suppression.
 
-#**The Architecture Is Intended for Robotics Cells Not Heavy Industrial Drives**
+**The Architecture Is Intended for Robotics Cells Not Heavy Industrial Drives**
 The MUX architecture is optimized for:Low-voltage robotics, Package handling subsystems, Sequential actuation processes, Cost-constrained modular cells.
 
-#**Scalability Is Achieved Through Cell Replication**
+**Scalability Is Achieved Through Cell Replication**
 
 Scalability is achieved by replicating: PLC + MUX cell units, Distributed Ethernet/IP coordination. Each cell maintains electrical independence.

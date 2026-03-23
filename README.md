@@ -1,5 +1,5 @@
 # Software-Defined-Sensor-Addressed-Motion-Control-Fabric
-A software-defined motion control fabric that decouples control algorithms from physical actuators, enabling hardware reuse across multiple PLCs and machines through sensor-addressed power multiplexing over Ethernet.
+A software-defined motion control fabric that decouples control algorithms from physical actuators, enabling hardware reuse across multiple PLCs and machines through sensor-addressed power multiplexing over Ethernet. This application is protected by multiple patents.
 
 **This Is a Time-Shared Power Architecture — Not Simultaneous Multi-Motor Drive**
 

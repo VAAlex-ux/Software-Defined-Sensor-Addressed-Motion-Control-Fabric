@@ -38,4 +38,4 @@ The MUX architecture is optimized for:Low-voltage robotics, Package handling sub
 Scalability is achieved by replicating: PLC + MUX cell units, Distributed Ethernet/IP coordination. Each cell maintains electrical independence.
 
 © [2026] [Velikov, Aleksandar (Alexander)]. All rights reserved.
-This project and the underlying technologies are protected by international copyright laws and multiple patents and/or pending patent applications. Unauthorized copying, modification, or distribution of this software, in whole or in part, is strictly prohibited.
+This project and the underlying technologies are protected by international copyright laws and multiple patents and/or pending patent applications. Unauthorized copying, modification, or distribution of this software/hardware/logic, in whole or in part, is strictly prohibited.

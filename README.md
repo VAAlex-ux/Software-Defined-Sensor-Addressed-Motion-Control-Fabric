@@ -42,6 +42,56 @@ $$I=\frac{24\text{\ VDC}-1.2\text{V\ (LED)}}{10\text{ k}\Omega }=2.28\text{\ mA}
 
 This current level is perfectly optimized. It provides enough energy to saturate the optocoupler's phototransistor cleanly while drawing only 52mW of power keeping the components cool while avoiding overheating.
 
+*B.2 - Sensor State Logic Flow*
+
+The PLC relays use specific state logic to safely manage directional transitions. 
+
+**The Ingress Synchronization Barrier**
+When a sensor changes state both PLCs pause their logic engines at a network barrier. They broadcast their local sensor maps across the AB 1783-LMS5 network switch using high-speed data packets. No PLC can pass this barrier until both nodes confirm they have received the identical data packet.
+
+**Polymorphic Program Augmentation**
+Once the barrier clears, both PLCs evaluate the updated sensor map simultaneously in the exact same cycle. If for example Sensor X on PLC A is active the system executes the base motion control program. If however for example Sensor Y on PLC A trips which isn't supposed to but does for emergency, the system instantly appends an "add-on" program module from PLC B onto the logic loop of PLC A. This morphs the execution instructions on the fly without a multi-cycle network delay.
+
+**Simultaneous Output Execution** 
+Because both PLCs process this change during the exact same scan cycle, their isolated output pins fire concurrently. This sends a low-power control signal across the optical photon bridge to trigger the motor matrix relays. The system switches directional power to the motors instantly and smoothly eliminating the risk of race conditions or mechanical wear.
+
+**C - The Latch/Unlatch State Machine Topology**
+
+The directional control of the low-voltage linear actuators uses a Bi-Stable Logical Latch Matrix with Dominant-Reset Interlocking. This logic structure prevents the system from simultaneously commanding the forward and reverse contactors, which would otherwise cause phase-to-phase dead short across the isolated power grids (GND2, GND3). In this software fabric the commands to change directions are processed using Set (Latch) and Reset (Unlatch) memory blocks. The system enforces a strict Reset-Dominant Unlatch Priority rule where if both directional signals are active simultaneously the system defaults to an unlatched dead-stop state to protect the hardware.
+
+*C.1 - High-Speed Temporal Analysis (Sensor-to-Actuator Speed)*
+
+Because this architecture utilizes a Network Enforced Common Data Phase the physical time it takes to flip a linear actuator from forward to reverse is fast as it is limited only by physical hardware switching delays, completely eliminating traditional multi-cycle software network lag time.
+
+The cycle for each execution is:
+
+Sensors $──>$ Pre-Execution Network Ingress Barrier $──>$ Simultaneous Logic Solve $──>$ Photon Signal Bridge $──>$ Isolated Power Cells
+
+Forming 0-cycle delay with cycle time:
+
+$$T_{\text{cycle}}=T_{\text{input\_read}}+T_{\text{network\_exchange}}+T_{\text{logic\_execute}}+T_{\text{output\_write}}$$
+
+*C.2 - Detailed Elapsed Time Analysis (Mathematical Latency Budgets)*
+
+Consider the architecture presented by [US20180024537A1]. To prove how the system achieves 0-cycle network propagation delay and operates significantly faster than standard implementation, we'll analyze the exact microsecond-level elapsed time $(T_{\text{elapsed}}\$ inside the execution cycle of both systems.
+
+**Configuration A - The Conventional / Schneider Asynchronous Architecture** 
+
+In an ordinary system and the architecture assumed in US20180024537A1, the network phase occurs at the end of the logic cycle [US20180024537A1]. If a sensor on PLC A trips and needs to trigger an "add-on" program on PLC B the elapsed time unfolds sequentially:
+
+Cycle 1 - PLC A Input Phase: PLC A reads its local physical sensor $(250\ \mu\text{s}\$.
+Cycle 1 - PLC A Execution Phase: PLC A solves its internal logic map (\(500\ \mu\text{s}\)).
+Cycle 1 - PLC A Output/Network Phase: PLC A updates its local hardware pins and pushes the sensor update packet onto the network bus (\(250\ \mu\text{s}\)).
+
+Network Transit Lag: The data packet travels across the network switches to reach PLC B (\(250\ \mu\text{s}\)).
+
+Cycle 2 - PLC B Ingress Phase: PLC B begins its next clock cycle and reads the incoming network data into its memory profile (\(250\ \mu\text{s}\)).
+Cycle 2 - PLC B Execution Phase: PLC B finally evaluates the message and activates the "add-on" program block (\(500\ \mu\text{s}\)).
+Cycle 2 - PLC B Egress Phase: PLC B updates its local simultaneous motor outputs (\(250\ \mu\text{s}\)).
+Total Elapsed Time (Conventional):\(T_{\text{elapsed}}=250+500+250+250+250+500+250=\mathbf{2,250\ \mu }\text{s}\)
+
+The Network Lag: Because the data had to wait for the next cycle to be evaluated, the system suffered an inherent 1-cycle network propagation delay (the data was generated in Cycle 1 but not acted upon until Cycle 2).
+
 **C - Supervisory PID Voltage Comparator & Main Inductor Control**
 
 While traditional motor control architectures use PID loops to handle high-bandwidth velocity/position regulation by modulating Pulse Width Modulation (PWM) duty cycles. In this fabric the PID block is repositioned as a Supervisory Voltage Verification and Interruption Engine.Its primary function is to protect the shared power domain from damage caused by inductive loads rather than just regulating dynamic speed.

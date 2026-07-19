@@ -123,7 +123,7 @@ $$
 \end{aligned}
 $$
 
-Architecture cuts total sensor-to-actuation processing latency down by 44.44% compared to a high-end asynchronous setup running at identical clock speeds.
+Architecture cuts total sensor-to-actuation processing latency down by 44.44% while cutting processing latency by 61.54% compared to a high-end asynchronous setup running at identical clock speeds.
 
 **D - Supervisory PID Voltage Comparator & Main Inductor Control**
 
@@ -142,6 +142,44 @@ Because this system uses a Time-Shared Matrix Topology the inductive load profil
 *D.1 - PID Coefficients*
 
 The PIC16F1619 in the Control Logic AutoCAD File monitors the current passing through the 12VDC Contactor through the M1 MOSFET transistor. $K_{p}\$ responds to small variations in current that passes through the current sensing resistor, $K_{i}\$ monitors unbalanced electromagnetic fields across the contactor through the past and $K_{d}\$ monitors for rare changes in current for open and short circuits.
+
+*D.2 - State Transition Equations*
+
+The global system state space $\mathbf{S}(t)$ is a high-dimensional vector composed of the discrete logic states of the distributed PLC nodes, the transient state of the communication network, and the continuous physical variables of the isolated motor execution cells:
+
+$$\mathbf{S}(t)=\begin{bmatrix}\mathbf{L}(t)\\ \mathbf{N}(t)\\ \mathbf{P}(t)\end{bmatrix}$$
+
+Where:
+
+* $\mathbf{L}(t) = [L_A, L_B]^T$ represents the internal logical latch state of PLC $A$ and PLC $B$ respectively, where $L_x \in \{0 \mathrm{\ (Idle)}, 1 \mathrm{\ (Forward)}, 2 \mathrm{\ (Reverse)}, 3 \mathrm{\ (Fault)}\}$.
+* $\mathbf{N}(t) \in \{0 \mathrm{\ (Blocked)}, 1 \mathrm{\ (Synchronized)}\}$ represents the boolean state of the PROFINET Ingress Barrier.
+* $\mathbf{P}(t) = [V_s(t), I_m(t), \theta(t)]^T$ represents the continuous physical vector of the power rail voltage ($V_{s}$), aggregate motor matrix current ($I_{m}$), and actuator position ($\theta$).
+
+The discrete state transitions are governed by the tuple:
+
+$$M=\langle Q,\Sigma ,\delta ,q_{0},F\rangle$$
+
+Where the transition function $\delta: Q \times \Sigma \rightarrow Q$ evaluates the global state vector at discrete cycle ticks $k$.
+
+**Forward Latch Activation Equation**
+The transition from State 0 (System Idle) to State 1 (Forward Extension) for a given cell occurs if and only if the synchronized global input vector validates that the forward path is clear and no higher-priority reset conditions exist:
+
+$$\delta (L_{A}(k),\Sigma (k))=1 \iff \left(I_{\mathrm{FWD\_SENS}}(k) \land \neg L_{B}(k) \land \neg \mathrm{EMG\_SW}(k) \land \left[|V_{\mathrm{s\_ref}}-V_{s}(k)| < \epsilon \right]\right)$$
+
+**Reverse Latch Activation Equation (Polymorphic Add-On)**
+The transition to State 2 (Reverse Retraction) appends the modular logic block from PLC $B$ onto the execution plane of PLC $A$:
+
+$$\delta (L_{A}(k),\Sigma (k))=2 \iff \left(I_{\mathrm{REV\_SENS}}(k) \land \neg L_{A}(k) \land \neg \mathrm{EMG\_SW}(k) \land \left[|V_{\mathrm{s\_ref}}-V_{s}(k)| < \epsilon \right]\right)$$
+
+**Dominant-Reset Fault Interruption Equation**
+The transition to State 3 (Catastrophic Fault) bypasses standard sequencing loops and forces a master unlatch condition. This is governed by the continuous integration of the voltage deviation within the supervisory PID layer:
+
+$$\delta (\mathbf{L}(k),\Sigma (k))=3 \iff \left(\mathrm{EMG\_SW}(k) \lor \left[K_{p}e(k)+K_{i}\sum _{j=0}^{k}e(j)\Delta t+K_{d}\frac{e(k)-e(k-1)}{\Delta t}\right] \ge U_{\mathrm{threshold}}\right)$$
+
+Where $e(k) = V_{\mathrm{s\_ref}} - V_s(k)$, and $U_{\mathrm{threshold}}$ is the critical security limit for hardware interruption. When this condition evaluates to true, the output variables are forced to zero:
+
+$$\mathbf{L}(k+1)=\begin{bmatrix}3\\ 3\end{bmatrix} \implies \begin{cases}\mathrm{Out}_{\mathrm{FWD}}(k+1)=0\\ \mathrm{Out}_{\mathrm{REV}}(k+1)=0\end{cases}$$
+
 
 
 © [2026] [Velikov, Aleksandar (Alexander)]. All rights reserved.

@@ -7,7 +7,12 @@ The system integrates a supervisory PID voltage comparator loop with multi-tiere
 
 While traditional motor control architectures use PID loops to handle high-bandwidth velocity/position regulation by modulating Pulse Width Modulation (PWM) duty cycles. In this fabric the PID block is repositioned as a Supervisory Voltage Verification and Interruption Engine.Its primary function is to protect the shared power domain from damage caused by inductive loads rather than just regulating dynamic speed.
 
-The loop continuously samples the raw DC voltage plane $V_{s}\$ feeding the active motor matrix. It measures this value against a high-resolution, static software reference $V_{sref} \approx 19.8\text{ VDC}\$. The error value $e(t)\$ is calculated on every scan cycle.
+The loop continuously samples the raw DC voltage plane $V_{s}\$ feeding the active motor matrix. It measures this value against a high-resolution, static software reference $V_{sref} \approx 19.8\text{ VDC}\$. The error value $e(t)\$ is calculated on every scan cycle. 
+
+$e(t)=V_{s\_ref}-V_{s}(t)\$
+
+The PID algorithm processes this error signal using standard proportional $K_{p}\$, integral $K_{i}\$, and derivative $K_{d}\$ coefficients to calculate a control output (\(u(t)\)):\(u(t)=K_{p}e(t)+K_{i}\int _{0}^{t}e(\tau )d\tau +K_{d}\frac{de(t)}{dt}\).
+Because this system uses a Time-Shared Matrix Topology, the inductive load profile changes drastically depending on how many motor coils are engaged at any given moment.
 
 **This Is a Time-Shared Power Architecture — Not Simultaneous Multi-Motor Drive**
 

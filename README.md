@@ -7,7 +7,7 @@ The system integrates a supervisory PID voltage comparator loop with multi-tiere
 
 While traditional motor control architectures use PID loops to handle high-bandwidth velocity/position regulation by modulating Pulse Width Modulation (PWM) duty cycles. In this fabric the PID block is repositioned as a Supervisory Voltage Verification and Interruption Engine.Its primary function is to protect the shared power domain from damage caused by inductive loads rather than just regulating dynamic speed.
 
-The loop continuously samples the raw DC voltage plane $\V_{s}\$ feeding the active motor matrix. It measures this value against a high-resolution, static software reference $\V_{s\_ref} \approx 19.8\text{ VDC}\$. The error value $\e(t)\$ is calculated on every scan cycle.
+The loop continuously samples the raw DC voltage plane $V_{s}\$ feeding the active motor matrix. It measures this value against a high-resolution, static software reference $V_{s_ref} \approx 19.8\text{ VDC}\$. The error value $e(t)\$ is calculated on every scan cycle.
 
 **This Is a Time-Shared Power Architecture — Not Simultaneous Multi-Motor Drive**
 

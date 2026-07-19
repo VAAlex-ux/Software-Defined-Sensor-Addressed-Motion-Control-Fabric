@@ -9,7 +9,7 @@ While traditional motor control architectures use PID loops to handle high-bandw
 
 The loop continuously samples the raw DC voltage plane $V_{s}\$ feeding the active motor matrix. It measures this value against a high-resolution, static software reference $V_{sref} \approx 19.8\text{ VDC}\$. The error value $e(t)\$ is calculated on every scan cycle. 
 
-$e(t)=V_{s\_ref}-V_{s}(t)\$
+$$e(t)=V_{s\_ref}-V_{s}(t)\$$
 
 The PID algorithm processes this error signal using standard proportional $K_{p}\$, integral $K_{i}\$, and derivative $K_{d}\$ coefficients to calculate a control output 
 

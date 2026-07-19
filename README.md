@@ -11,7 +11,9 @@ The loop continuously samples the raw DC voltage plane $V_{s}\$ feeding the acti
 
 $e(t)=V_{s\_ref}-V_{s}(t)\$
 
-The PID algorithm processes this error signal using standard proportional $K_{p}\$, integral $K_{i}\$, and derivative $K_{d}\$ coefficients to calculate a control output (\(u(t)\)):\(u(t)=K_{p}e(t)+K_{i}\int _{0}^{t}e(\tau )d\tau +K_{d}\frac{de(t)}{dt}\).
+The PID algorithm processes this error signal using standard proportional $K_{p}\$, integral $K_{i}\$, and derivative $K_{d}\$ coefficients to calculate a control output 
+
+$u(t)\:\(u(t)=K_{p}e(t)+K_{i}\int _{0}^{t}e(\tau )d\tau +K_{d}\frac{de(t)}{dt}\$.
 Because this system uses a Time-Shared Matrix Topology, the inductive load profile changes drastically depending on how many motor coils are engaged at any given moment.
 
 **This Is a Time-Shared Power Architecture — Not Simultaneous Multi-Motor Drive**

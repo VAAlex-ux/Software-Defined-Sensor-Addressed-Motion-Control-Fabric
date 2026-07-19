@@ -1,4 +1,4 @@
-# Software Defined Sensor Addressed Motion Control Fabric - (Automation - 1)
+# Software Defined Sensor Addressed Motion Control Fabric - (Automation & Controls - # 1)
 The Software Defined Sensor Addressed Motion Control Fabric (SDSAMCF) decouples control algorithms from physical actuators, enabling hardware reuse across multiple PLCs and machines through sensor-addressed power multiplexing over ProfiNET Ethernet.
 
 The system integrates a supervisory PID voltage comparator loop with multi-tiered power distribution to manage inductive loads (motor matrices) via isolated 12VDC contactor coils while maintaining separate, galvanically isolated power domains (i.e. GND2, GND3) for fault containment. The architecture uses a networked-enforced common data phase via a 1783-LMS5 switch to synchronize DPDT relay-driven forward/reverse sensor states between redundant PLCs enabling deterministic polymorphic program execution; ensuring all sensor-driven trajectory changes are processed before the output, eliminating race conditions.

@@ -111,6 +111,20 @@ $$T_{\mathrm{elapsed}} = 250 + 250 + 500 + 250 = \mathbf{1{,}250\ \mu s}$$
 
 **The Network Lag:** Because the sensor data was pushed through the ingress barrier prior to logic processing, the propagation delay is compressed to exactly 0 cycles. The cross-node software modification occurs instantly within the same scan window.
 
+*C.3 - Proof of Performance Gains*
+
+$$\mathrm{Performance\ Increase\ (\%)} = \left(\frac{T_{\mathrm{conventional}} - T_{\mathrm{your\_fabric}}}{T_{\mathrm{conventional}}}\right) \times 100$$
+
+$$
+\begin{aligned}
+\mathrm{Performance\ Increase\ (\%)} &= \left(\frac{2{,}250\ \mu\mathrm{s} - 1{,}250\ \mu\mathrm{s}}{2{,}250\ \mu\mathrm{s}}\right) \times 100 \\
+&= \left(\frac{1{,}000\ \mu\mathrm{s}}{2{,}250\ \mu\mathrm{s}}\right) \times 100 \\
+&= \mathbf{44.44\%}
+\end{aligned}
+$$
+
+Architecture cuts total sensor-to-actuation processing latency down by **44.44%** compared to a high-end asynchronous setup running at identical clock speeds.
+
 **C - Supervisory PID Voltage Comparator & Main Inductor Control**
 
 While traditional motor control architectures use PID loops to handle high-bandwidth velocity/position regulation by modulating Pulse Width Modulation (PWM) duty cycles. In this fabric the PID block is repositioned as a Supervisory Voltage Verification and Interruption Engine.Its primary function is to protect the shared power domain from damage caused by inductive loads rather than just regulating dynamic speed.

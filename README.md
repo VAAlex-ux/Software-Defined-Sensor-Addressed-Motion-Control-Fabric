@@ -77,18 +77,18 @@ Consider the architecture presented by [US20180024537A1]. To prove how the syste
 
 **Configuration A - The Conventional / Schneider Asynchronous Architecture** 
 
-In an ordinary system and the architecture assumed in US20180024537A1, the network phase occurs at the end of the logic cycle [US20180024537A1]. If a sensor on PLC A trips and needs to trigger an "add-on" program on PLC B the elapsed time unfolds sequentially:
+In an ordinary system and the architecture assumed in US20180024537A1, the network phase occurs at the end of the logic cycle [US20180024537A1]. If a sensor on PLC A trips and needs to trigger an "add-on" program on PLC B the elapsed time unfolds sequentially://
 
-Cycle 1 - PLC A Input Phase: PLC A reads its local physical sensor $250\ \mu\text{s}\$.
-Cycle 1 - PLC A Execution Phase: PLC A solves its internal logic map $500\ \mu\text{s}\$.
-Cycle 1 - PLC A Output/Network Phase: PLC A updates its local hardware pins and pushes the sensor update packet onto the network bus (\(250\ \mu\text{s}\)).
+Cycle 1 - PLC A Input Phase: PLC A reads its local physical sensor $250\ \mu\text{s}\$.//
+Cycle 1 - PLC A Execution Phase: PLC A solves its internal logic map $500\ \mu\text{s}\$.//
+Cycle 1 - PLC A Output/Network Phase: PLC A updates its local hardware pins and pushes the sensor update packet onto the network bus $250\ \mu\text{s}\$.////
 
-Network Transit Lag: The data packet travels across the network switches to reach PLC B $250\ \mu\text{s}\$.
+Network Transit Lag: The data packet travels across the network switches to reach PLC B $250\ \mu\text{s}\$.////
 
-Cycle 2 - PLC B Ingress Phase: PLC B begins its next clock cycle and reads the incoming network data into its memory profile $250\ \mu\text{s}\$.
-Cycle 2 - PLC B Execution Phase: PLC B finally evaluates the message and activates the "add-on" program block $500\ \mu\text{s}\$.
-Cycle 2 - PLC B Egress Phase: PLC B updates its local simultaneous motor outputs $250\ \mu\text{s}\$.
-Total Elapsed Time (Conventional):$$\(T_{\text{elapsed}}=250+500+250+250+250+500+250=\mathbf{2,250\ \mu }\text{s}\)$$
+Cycle 2 - PLC B Ingress Phase: PLC B begins its next clock cycle and reads the incoming network data into its memory profile $250\ \mu\text{s}\$.//
+Cycle 2 - PLC B Execution Phase: PLC B finally evaluates the message and activates the "add-on" program block $500\ \mu\text{s}\$.//
+Cycle 2 - PLC B Egress Phase: PLC B updates its local simultaneous motor outputs $250\ \mu\text{s}\$.////
+Total Elapsed Time (Conventional):$$T_{\mathrm{elapsed}}=250+500+250+250+250+500+250=\mathbf{2{,}250\ \mu s}$$//
 
 The Network Lag: Because the data had to wait for the next cycle to be evaluated, the system suffered an inherent 1-cycle network propagation delay (the data was generated in Cycle 1 but not acted upon until Cycle 2).
 

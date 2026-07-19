@@ -65,7 +65,7 @@ Because this architecture utilizes a Network Enforced Common Data Phase the phys
 
 The cycle for each execution is:
 
-Sensors $──>$ Pre-Execution Network Ingress Barrier $──>$ Simultaneous Logic Solve $──>$ Photon Signal Bridge $──>$ Isolated Power Cells
+Sensors ─> Pre-Execution Network Ingress Barrier ─> Simultaneous Logic Solve ─> Photon Signal Bridge ─> Isolated Power Cells
 
 Forming 0-cycle delay with cycle time:
 
@@ -79,7 +79,7 @@ Consider the architecture presented by [US20180024537A1]. To prove how the syste
 
 In an ordinary system and the architecture assumed in US20180024537A1, the network phase occurs at the end of the logic cycle [US20180024537A1]. If a sensor on PLC A trips and needs to trigger an "add-on" program on PLC B the elapsed time unfolds sequentially:
 
-Cycle 1 - PLC A Input Phase: PLC A reads its local physical sensor $(250\ \mu\text{s}\$.
+Cycle 1 - PLC A Input Phase: PLC A reads its local physical sensor $250\ \mu\text{s}\$.
 Cycle 1 - PLC A Execution Phase: PLC A solves its internal logic map (\(500\ \mu\text{s}\)).
 Cycle 1 - PLC A Output/Network Phase: PLC A updates its local hardware pins and pushes the sensor update packet onto the network bus (\(250\ \mu\text{s}\)).
 

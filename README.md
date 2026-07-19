@@ -113,11 +113,11 @@ $$T_{\mathrm{elapsed}} = 250 + 250 + 500 + 250 = \mathbf{1{,}250\ \mu s}$$
 
 *C.3 - Proof of Performance Gains*
 
-$$\mathrm{Performance\ Increase\ (\%)} = \left(\frac{T_{\mathrm{conventional}} - T_{\mathrm{your\_fabric}}}{T_{\mathrm{conventional}}}\right) \times 100$$
+$$\mathrm{Performance\ Increase\ \%)} = \left(\frac{T_{\mathrm{conventional}} - T_{\mathrm{control\_fabric}}}{T_{\mathrm{conventional}}}\right) \times 100$$
 
 $$
 \begin{aligned}
-\mathrm{Performance\ Increase\ (\%)} &= \left(\frac{2{,}250\ \mu\mathrm{s} - 1{,}250\ \mu\mathrm{s}}{2{,}250\ \mu\mathrm{s}}\right) \times 100 \\
+\mathrm{Performance\ Increase\ \%)} &= \left(\frac{2{,}250\ \mu\mathrm{s} - 1{,}250\ \mu\mathrm{s}}{2{,}250\ \mu\mathrm{s}}\right) \times 100 \\
 &= \left(\frac{1{,}000\ \mu\mathrm{s}}{2{,}250\ \mu\mathrm{s}}\right) \times 100 \\
 &= \mathbf{44.44\%}
 \end{aligned}

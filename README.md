@@ -3,7 +3,25 @@ The Software Defined Sensor Addressed Motion Control Fabric (SDSAMCF) decouples 
 
 The system integrates a supervisory PID voltage comparator loop with multi-tiered power distribution to manage inductive loads (motor matrices) via isolated 12VDC contactor coils while maintaining separate, galvanically isolated power domains (i.e. GND2, GND3) for fault containment. The architecture uses a networked-enforced common data phase via a 1783-LMS5 switch to synchronize DPDT relay-driven forward/reverse sensor states between redundant PLCs enabling deterministic polymorphic program execution; ensuring all sensor-driven trajectory changes are processed before the output, eliminating race conditions.
 
-**Supervisory PID Voltage Comparator & Main Inductor Control**
+**A - Multi-Tiered Power Distribution Stage & Isolation Architecture**
+
+The power distribution design acts as a physical hardware firewall. It prevents high-voltage grid noise and low-voltage inductive spikes from crossing over into the sensitive computing components.
+
+*A.1 - Main High-Voltage Bus and Step-Down*
+
+The input stage connects directly to a standard industrial 380V/415V AC 50Hz 3-Phase mains supply. This high-voltage rail feeds the primary power lines via dedicated molded case circuit breakers MCCBs.To power the control circuitry a single AC phase and a neutral line (220VAC) are split off and routed straight into a Murrelektronik Isolation Transformer. This steps the voltage down safely from 220VAC to a localized 15VAC line creating a complete physical air-gap that blocks grid-level voltage surges from passing down the line.
+
+*A.2 - AC/DC Rectification and Regulation*
+
+The 15VAC secondary line feeds into a full bridge rectifier matrix that converts the AC sine wave into a rough DC output. This output rests across a smoothing capacitor array, C101 through C104. 
+
+The peak unfiltered DC voltage resting on these capacitors is calculated as:
+
+$$V_{\text{peak}}=(15\text{\ VAC}\times \sqrt{2})-1.4\text{V\ (diode\ forward\ drop)}\approx 19.8\text{\ VDC}$$
+
+This 19.8VDC rail runs directly into the input pin of an IC7812 Linear Regulator housed in a TO-220 package. The IC7812 drops this voltage down to a clean, flat 12VDC output.Because the 12VDC line only powers a single 30mA contactor coil, the regulator dissipates very little power as heat:\(P=I\times (V_{\text{in}}-V_{\text{out}})=0.03\text{\ A}\times (19.8\text{V}-12\text{V})=0.234\text{\ Watts}\)This allows the IC7812 to run cool and stable without a large heatsink. To prevent high-frequency noise from feeding back onto this rail, 1µF ceramic decoupling capacitors (C106, C107, C108) are placed immediately next to the regulator's pins to dump noise straight to ground.
+
+**B - Supervisory PID Voltage Comparator & Main Inductor Control**
 
 While traditional motor control architectures use PID loops to handle high-bandwidth velocity/position regulation by modulating Pulse Width Modulation (PWM) duty cycles. In this fabric the PID block is repositioned as a Supervisory Voltage Verification and Interruption Engine.Its primary function is to protect the shared power domain from damage caused by inductive loads rather than just regulating dynamic speed.
 

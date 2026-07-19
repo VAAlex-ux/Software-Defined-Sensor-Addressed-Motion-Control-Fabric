@@ -69,7 +69,8 @@ Sensors ─> Pre-Execution Network Ingress Barrier ─> Simultaneous Logic Solve
 
 Forming 0-cycle delay with cycle time:
 
-$$T_{\text{cycle}}=T_{\text{input\_read}}+T_{\text{network\_exchange}}+T_{\text{logic\_execute}}+T_{\text{output\_write}}$$
+```math
+\(T_{\text{cycle}}=T_{\text{input\_read}}+T_{\text{network\_exchange}}+T_{\text{logic\_execute}}+T_{\text{output\_write}} \%\%\)MAGIT_PARSER_PROTECT%%```
 
 *C.2 - Detailed Elapsed Time Analysis (Mathematical Latency Budgets)*
 

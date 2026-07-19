@@ -178,7 +178,8 @@ $$\delta (\mathbf{L}(k),\Sigma (k))=3 \iff \left(\mathrm{EMG\_SW}(k) \lor \left[
 
 Where $e(k) = V_{\mathrm{s\_ref}} - V_s(k)$, and $U_{\mathrm{threshold}}$ is the critical security limit for hardware interruption. When this condition evaluates to true, the output variables are forced to zero:
 
-$$\mathbf{L}(k+1)=\begin{bmatrix}3\\ 3\end{bmatrix} \implies \begin{cases}\mathrm{Out}_{\mathrm{FWD}}(k+1)=0\\ \mathrm{Out}_{\mathrm{REV}}(k+1)=0\end{cases}$$
+$$\mathbf{L}(k+1)=\begin{bmatrix}3\\ 3\end{bmatrix} \implies \begin{bmatrix}\mathrm{Out}_{\mathrm{FWD}}(k+1)\\ \mathrm{Out}_{\mathrm{REV}}(k+1)\end{bmatrix} = \begin{bmatrix}0\\ 0\end{bmatrix}$$
+
 
 
 

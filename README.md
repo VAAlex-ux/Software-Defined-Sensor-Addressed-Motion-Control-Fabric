@@ -1,13 +1,13 @@
-# Software-Defined-Sensor-Addressed-Motion-Control-Fabric
+# Software Defined Sensor Addressed Motion Control Fabric - (Automation - 1)
 The Software Defined Sensor Addressed Motion Control Fabric (SDSAMCF) decouples control algorithms from physical actuators, enabling hardware reuse across multiple PLCs and machines through sensor-addressed power multiplexing over ProfiNET Ethernet.
 
-The system integrates a supervisory PID voltage comparator loop with multi-tiered power distribution to manage inductive loads (motor matrices) via isolated 12VDC contactor coils while maintaining separate, galvanically isolated power domains (GND2, GND3) for fault containment. The architecture uses a networked-enforced common data phase via a 1783-LMS5 switch to synchronize DPDT relay-driven forward/reverse sensor states between redundant PLCs enabling deterministic polymorphic program execution; ensuring all sensor-driven trajectory changes are processed before the output, eliminating race conditions.
+The system integrates a supervisory PID voltage comparator loop with multi-tiered power distribution to manage inductive loads (motor matrices) via isolated 12VDC contactor coils while maintaining separate, galvanically isolated power domains (i.e. GND2, GND3) for fault containment. The architecture uses a networked-enforced common data phase via a 1783-LMS5 switch to synchronize DPDT relay-driven forward/reverse sensor states between redundant PLCs enabling deterministic polymorphic program execution; ensuring all sensor-driven trajectory changes are processed before the output, eliminating race conditions.
 
 **Supervisory PID Voltage Comparator & Main Inductor Control**
 
 While traditional motor control architectures use PID loops to handle high-bandwidth velocity/position regulation by modulating Pulse Width Modulation (PWM) duty cycles. In this fabric the PID block is repositioned as a Supervisory Voltage Verification and Interruption Engine.Its primary function is to protect the shared power domain from damage caused by inductive loads rather than just regulating dynamic speed.
 
-The loop continuously samples the raw DC voltage plane (\(V_{s}\)) feeding the active motor matrix. It measures this value against a high-resolution, static software reference (\(V_{s\_ref} \approx 19.8\text{ VDC}\)). The error value (\(e(t)\)) is calculated on every scan cycle.
+The loop continuously samples the raw DC voltage plane $\(V_{s}\)$ feeding the active motor matrix. It measures this value against a high-resolution, static software reference (\(V_{s\_ref} \approx 19.8\text{ VDC}\)). The error value (\(e(t)\)) is calculated on every scan cycle.
 
 **This Is a Time-Shared Power Architecture — Not Simultaneous Multi-Motor Drive**
 

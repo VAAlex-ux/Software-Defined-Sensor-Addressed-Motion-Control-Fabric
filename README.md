@@ -17,9 +17,13 @@ The 15VAC secondary line feeds into a full bridge rectifier matrix that converts
 
 The peak unfiltered DC voltage resting on these capacitors is calculated as:
 
-$$V_{\text{peak}}=(15\text{\ VAC}\times \sqrt{2})-1.4\text{V\ (diode\ forward\ drop)}\approx 19.8\text{\ VDC}$$
+$$V_{\text{peak}}=(15\text{\ VAC}\times \sqrt{2})-1.4\text{V\ (forward\ drop)}\approx 19.8\text{\ VDC}$$
 
-This 19.8VDC rail runs directly into the input pin of an IC7812 Linear Regulator housed in a TO-220 package. The IC7812 drops this voltage down to a clean, flat 12VDC output.Because the 12VDC line only powers a single 30mA contactor coil, the regulator dissipates very little power as heat:\(P=I\times (V_{\text{in}}-V_{\text{out}})=0.03\text{\ A}\times (19.8\text{V}-12\text{V})=0.234\text{\ Watts}\)This allows the IC7812 to run cool and stable without a large heatsink. To prevent high-frequency noise from feeding back onto this rail, 1µF ceramic decoupling capacitors (C106, C107, C108) are placed immediately next to the regulator's pins to dump noise straight to ground.
+This 19.8VDC rail runs directly into the input pin of an IC7812 Linear Regulator housed in a TO-220 package. The IC7812 drops this voltage down to a clean, flat 12VDC output. Because the 12VDC line only powers a single 30mA contactor coil the regulator dissipates very little power as heat.
+
+$$P=I\times (V_{\text{in}}-V_{\text{out}})=0.03\text{\ A}\times (19.8\text{V}-12\text{V})=0.234\text{\ Watts}$$
+
+This allows the IC7812 to run cool and stable without a large heatsink. To prevent high-frequency noise from feeding back onto this rail, 1µF ceramic decoupling capacitors (C106, C107, C108) are placed immediately next to the regulator's pins to dump noise straight to ground.
 
 **B - Supervisory PID Voltage Comparator & Main Inductor Control**
 

@@ -75,7 +75,7 @@ $$T_{\mathrm{cycle}}=T_{\mathrm{input_read}}+T_{\mathrm{network_exchange}}+T_{\m
 
 Consider the architecture presented by [US20180024537A1]. To prove how the system achieves 0-cycle network propagation delay and operates significantly faster than standard implementation, we'll analyze the exact microsecond-level elapsed time $(T_{\text{elapsed}}\$ inside the execution cycle of both systems.
 
-**Configuration A - The Conventional / Schneider Asynchronous Architecture** 
+**Configuration A - Conventional / Schneider Asynchronous Architecture** 
 
 In an ordinary system and the architecture assumed in US20180024537A1, the network phase occurs at the end of the logic cycle [US20180024537A1]. If a sensor on PLC A trips and needs to trigger an "add-on" program on PLC B the elapsed time unfolds sequentially://
 
@@ -97,7 +97,7 @@ $$T_{\mathrm{elapsed}} = 250 + 500 + 250 + 250 + 250 + 500 + 250 = \mathbf{2{,}2
 
 **The Network Lag:** Because the data had to wait for the next cycle to be evaluated, the system suffered an inherent 1-cycle network propagation delay (the data was generated in Cycle 1 but not acted upon until Cycle 2).
 
-**Configuration B: Your Synchronous Ingress Barrier Fabric**
+**Configuration B: Synchronous Ingress Barrier Fabric**
 
 This new architecture flips the processing sequence entirely by inserting a hard blocking barrier immediately after the physical input read forcing the network data exchange to happen before the logic engine turns on.
 

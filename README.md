@@ -184,16 +184,16 @@ $$\mathbf{L}(k+1)=\begin{bmatrix}3\\ 3\end{bmatrix} \implies \begin{bmatrix}\mat
 
 The schematics representing this ProfiNET Control Fabric are ordered as follows:
 
-(AutoCAD) 1. Power Distribution
-(AutoCAD) 2. Control Logic
-(AutoCAD) 3. PLC Network
-(AutoCAD) 4. Control Panel
-(AutoCAD) 5. Equivalent Circuit Control Architecture
-(AutoCAD) 6. BOM
+* (AutoCAD) 1. Power Distribution
+* (AutoCAD) 2. Control Logic
+* (AutoCAD) 3. PLC Network
+* (AutoCAD) 4. Control Panel
+* (AutoCAD) 5. Equivalent Circuit Control Architecture
+* (AutoCAD) 6. BOM
 
-(ProfiCAD) 1. Overview_profiCAD
+* (ProfiCAD) 1. Overview_profiCAD
 
-(Overview of System) Software Defined Sensor Addressed Motion Control Fabric
+* (Overview of System) Software Defined Sensor Addressed Motion Control Fabric
 
 
 © [2026] [Velikov, Aleksandar (Alexander)]. All rights reserved.

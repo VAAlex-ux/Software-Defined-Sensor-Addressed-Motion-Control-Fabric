@@ -97,6 +97,19 @@ $$T_{\mathrm{elapsed}} = 250 + 500 + 250 + 250 + 250 + 500 + 250 = \mathbf{2{,}2
 
 **The Network Lag:** Because the data had to wait for the next cycle to be evaluated, the system suffered an inherent 1-cycle network propagation delay (the data was generated in Cycle 1 but not acted upon until Cycle 2).
 
+**Configuration B: Your Synchronous Ingress Barrier Fabric**
+
+This new architecture flips the processing sequence entirely by inserting a hard blocking barrier immediately after the physical input read forcing the network data exchange to happen before the logic engine turns on.
+
+* **Phase 1:** Autonomous Input Read: PLC A and PLC B simultaneously read their local physical sensors and proximity inputs ($250\ \mu\text{s}$).
+* **Phase 2:** The Enforced Ingress Sync Barrier: Both PLCs pause their logic solvers. They immediately broadcast their local sensor snapshots to each other over the AB 1783-LMS5 switch. Execution is blocked until both nodes confirm receipt of the global data map ($250\ \mu\text{s}$).
+* **Phase 3:** Polymorphic Concurrent Evaluation: With a perfectly synchronized memory map both PLCs unblock at the exact same microsecond. They evaluate the combined base program and the dynamic "add-on" program modules simultaneously within the same logic window ($500\ \mu\text{s}$).
+* **Phase 4:** Isolated Matrix Actuation: The output bits are written concurrently, driving clean 12VDC power from the IC7812 regulator to close the isolated motor contactors ($250\ \mu\text{s}$).
+
+**Total Elapsed Time (Control Fabric)**
+$$T_{\mathrm{elapsed}} = 250 + 250 + 500 + 250 = \mathbf{1{,}250\ \mu s}$$
+
+**The Network Lag:** Because the sensor data was pushed through the ingress barrier prior to logic processing, the propagation delay is compressed to exactly 0 cycles. The cross-node software modification occurs instantly within the same scan window.
 
 **C - Supervisory PID Voltage Comparator & Main Inductor Control**
 

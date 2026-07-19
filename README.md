@@ -38,7 +38,7 @@ The interface between the virtual software fabric and the physical hardware cell
 When a physical sensor such as a Forward or Reverse proximity switch trips on the machine layout, it energizes the coil of a specific DPDT relay on the control panel.The dual poles of this relay switch separate low-voltage DC signals toward the input blocks of System A (PLC A) and System B (PLC B) simultaneously. These signals enter the PLC inputs through internal optocouplers. A 10kΩ series resistor limits the current flowing through the optocoupler's internal LED to prevent burnout. 
 For example at a standard 24VDC signaling voltage the loop current is safely limited to:
 
-$$I=\frac{24\text{\ VDC}-1.2\text{V\ (LED)}}{10\ \KOmega }=2.28\text{\ mA}$$
+$$I=\frac{24\text{\ VDC}-1.2\text{V\ (LED)}}{10\text{ k}\Omega }=2.28\text{\ mA}$$
 
 This current level is perfectly optimized. It provides enough energy to saturate the optocoupler's phototransistor cleanly while drawing only 52mW of power keeping the components cool while avoiding overheating.
 

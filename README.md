@@ -25,7 +25,24 @@ $$P=I\times (V_{\text{in}}-V_{\text{out}})=0.03\text{\ A}\times (19.8\text{V}-12
 
 This allows the IC7812 to run cool and stable without a large heatsink. To prevent high-frequency noise from feeding back onto this rail, 1µF ceramic decoupling capacitors C106, C107, C108 are placed immediately next to the regulator's pins to dump noise straight to ground.
 
-**B - Supervisory PID Voltage Comparator & Main Inductor Control**
+*A.3 - Absolute Spatial and Galvanic Isolation*
+
+The most critical feature of the power layout is the complete isolation of the grounding planes. The main PLC logic components run off an entirely separate power converter. The motor execution cells downstream run off their own dedicated step-down transformers each equipped with its own isolated grounding GND2, GND3. Because these grounds share no physical connection with the main control ground GND, an electrical breakdown or inductive spike in Motor Cell A or B is completely trapped within its own isolated pool. It cannot migrate up into the main 3-phase grid nor can it touch the logic rail powering the PLCs.
+
+**B - PLC Relay Matrices & Forward/Reverse Control Logic**
+
+The interface between the virtual software fabric and the physical hardware cells is controlled by an array of Double Pole Double Throw (DPDT) relays and input optocouplers. This setup allows the system to process physical sensor data across multiple nodes simultaneously.
+
+*B.1 - The Optical Input Bridge*
+
+When a physical sensor such as a Forward or Reverse proximity switch trips on the machine layout, it energizes the coil of a specific DPDT relay on the control panel.The dual poles of this relay switch separate low-voltage DC signals toward the input blocks of System A (PLC A) and System B (PLC B) simultaneously. These signals enter the PLC inputs through internal optocouplers. A 10kΩ series resistor limits the current flowing through the optocoupler's internal LED to prevent burnout. 
+For example at a standard 24VDC signaling voltage the loop current is safely limited to:
+
+$$I=\frac{24\text{\ VDC}-1.2\text{V\ (LED)}}{10\ \KOmega }=2.28\text{\ mA}$$
+
+This current level is perfectly optimized. It provides enough energy to saturate the optocoupler's phototransistor cleanly while drawing only 52mW of power keeping the components cool while avoiding overheating.
+
+**C - Supervisory PID Voltage Comparator & Main Inductor Control**
 
 While traditional motor control architectures use PID loops to handle high-bandwidth velocity/position regulation by modulating Pulse Width Modulation (PWM) duty cycles. In this fabric the PID block is repositioned as a Supervisory Voltage Verification and Interruption Engine.Its primary function is to protect the shared power domain from damage caused by inductive loads rather than just regulating dynamic speed.
 
@@ -38,6 +55,9 @@ The PID algorithm processes this error signal using standard proportional $K_{p}
 $$u(t)=K_{p}e(t)+K_{i}\int _{0}^{t}e(\tau )d\tau +K_{d}\frac{de(t)}{dt}$$
 
 Because this system uses a Time-Shared Matrix Topology the inductive load profile changes drastically depending on how many motor coils are engaged at any given moment.
+
+
+
 
 **This Is a Time-Shared Power Architecture — Not Simultaneous Multi-Motor Drive**
 

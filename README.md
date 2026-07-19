@@ -23,7 +23,7 @@ This 19.8VDC rail runs directly into the input pin of an IC7812 Linear Regulator
 
 $$P=I\times (V_{\text{in}}-V_{\text{out}})=0.03\text{\ A}\times (19.8\text{V}-12\text{V})=0.234\text{\ Watts}$$
 
-This allows the IC7812 to run cool and stable without a large heatsink. To prevent high-frequency noise from feeding back onto this rail, 1µF ceramic decoupling capacitors (C106, C107, C108) are placed immediately next to the regulator's pins to dump noise straight to ground.
+This allows the IC7812 to run cool and stable without a large heatsink. To prevent high-frequency noise from feeding back onto this rail, 1µF ceramic decoupling capacitors C106, C107, C108 are placed immediately next to the regulator's pins to dump noise straight to ground.
 
 **B - Supervisory PID Voltage Comparator & Main Inductor Control**
 
